@@ -1,6 +1,13 @@
 import { MantineProvider } from '@mantine/core';
+import { QueryClientProvider } from '@tanstack/react-query';
 import type { PropsWithChildren } from 'react';
 
+import { queryClient } from '@/shared/api/queryClient';
+
 export function AppProviders({ children }: PropsWithChildren) {
-  return <MantineProvider>{children}</MantineProvider>;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <MantineProvider>{children}</MantineProvider>
+    </QueryClientProvider>
+  );
 }
