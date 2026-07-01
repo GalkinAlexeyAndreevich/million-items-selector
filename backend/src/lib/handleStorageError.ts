@@ -5,10 +5,11 @@ import {
   DuplicateItemError,
   InvalidItemIdError,
   ItemNotFoundError,
+  NotSelectedError,
 } from '../storage/index.js';
 
 export function handleStorageError(error: unknown, res: Response): boolean {
-  if (error instanceof ItemNotFoundError) {
+  if (error instanceof ItemNotFoundError || error instanceof NotSelectedError) {
     res.status(404).json({ error: error.message });
     return true;
   }

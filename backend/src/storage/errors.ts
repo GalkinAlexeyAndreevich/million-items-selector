@@ -25,3 +25,10 @@ export class InvalidItemIdError extends Error {
     this.name = 'InvalidItemIdError';
   }
 }
+
+export class NotSelectedError extends Error {
+  constructor(id: number) {
+    super(`Item ${id} is not selected`);
+    this.name = 'NotSelectedError';
+  }
+}

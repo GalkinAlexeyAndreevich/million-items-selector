@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { useSelectedInfiniteQuery } from '@/entities/selection';
 import { IdFilterInput } from '@/features/id-filter';
-import { PaginatedItemsList } from '@/shared/ui/PaginatedItemsList';
+import { SortableSelectedList } from '@/features/reorder-selected';
 
 export function SelectedPanel() {
   const [filter, setFilter] = useState('');
@@ -27,14 +27,15 @@ export function SelectedPanel() {
       <Stack gap="md" flex={1} miw={0} mih={0}>
         <Title order={3}>Выбранные</Title>
         <Text size="sm" c="dimmed">
-          Список выбранных элементов
+          Перетащите элементы, чтобы изменить порядок
         </Text>
 
         <IdFilterInput value={filter} onChange={setFilter} />
 
-        <PaginatedItemsList
+        <SortableSelectedList
           items={items}
           total={total}
+          filter={debouncedFilter}
           isPending={query.isPending}
           isFetchingNextPage={query.isFetchingNextPage}
           hasNextPage={query.hasNextPage ?? false}
