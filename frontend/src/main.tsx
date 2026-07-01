@@ -4,6 +4,7 @@ import '@mantine/core/styles.css';
 
 import { App } from '@/app';
 import { AppProviders } from '@/app/providers';
+import '@/app/styles/global.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

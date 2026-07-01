@@ -5,11 +5,11 @@ import { selectedItemsQueryKey } from '@/shared/api/queryKeys';
 
 import { fetchSelectedItems } from './fetchSelectedItems';
 
-export function useSelectedInfiniteQuery() {
+export function useSelectedInfiniteQuery(filter = '') {
   return useInfiniteQuery({
-    queryKey: selectedItemsQueryKey,
+    queryKey: [...selectedItemsQueryKey, filter],
     queryFn: ({ pageParam }) =>
-      fetchSelectedItems({ offset: pageParam, limit: PAGE_SIZE }),
+      fetchSelectedItems({ offset: pageParam, limit: PAGE_SIZE, filter }),
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
       const nextOffset = lastPage.offset + lastPage.items.length;

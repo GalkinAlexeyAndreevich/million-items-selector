@@ -9,6 +9,16 @@ export function parsePagination(query: Request['query']) {
   return { offset, limit };
 }
 
+export function parseIdFilter(query: Request['query']): string {
+  const filter = query.filter;
+
+  if (typeof filter !== 'string') {
+    return '';
+  }
+
+  return filter.trim();
+}
+
 export function parseIdParam(value: string): number | null {
   const id = Number(value);
 

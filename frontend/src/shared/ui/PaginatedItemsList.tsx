@@ -1,4 +1,4 @@
-import { Alert, Button, Loader, ScrollArea, Stack, Text } from '@mantine/core';
+import { Alert, Box, Button, Loader, ScrollArea, Stack, Text } from '@mantine/core';
 import { useIntersection } from '@mantine/hooks';
 import { useState } from 'react';
 
@@ -57,50 +57,52 @@ export function PaginatedItemsList({
   }
 
   return (
-    <>
+    <Stack gap="xs" flex={1} miw={0} mih={0}>
       {total > 0 && (
         <Text size="sm" c="dimmed">
           Загружено {items.length} из {total}
         </Text>
       )}
 
-      <ScrollArea h={560} viewportRef={setViewport} type="auto">
-        {isPending ? (
-          <Loader />
-        ) : items.length === 0 ? (
-          <Text c="dimmed" size="sm">
-            {emptyMessage}
-          </Text>
-        ) : (
-          <>
-            <Stack gap="xs">
-              {items.map((id) => (
-                <Button
-                  key={id}
-                  variant="light"
-                  fullWidth
-                  justify="flex-start"
-                  onClick={onItemClick ? () => onItemClick(id) : undefined}
-                >
-                  {id}
-                </Button>
-              ))}
-            </Stack>
+      <Box flex={1} miw={0} mih={0}>
+        <ScrollArea h="100%" viewportRef={setViewport} type="auto">
+          {isPending ? (
+            <Loader />
+          ) : items.length === 0 ? (
+            <Text c="dimmed" size="sm">
+              {emptyMessage}
+            </Text>
+          ) : (
+            <>
+              <Stack gap="xs">
+                {items.map((id) => (
+                  <Button
+                    key={id}
+                    variant="light"
+                    fullWidth
+                    justify="flex-start"
+                    onClick={onItemClick ? () => onItemClick(id) : undefined}
+                  >
+                    {id}
+                  </Button>
+                ))}
+              </Stack>
 
-            {hasNextPage && (
-              <div ref={sentinelRef} style={{ height: 1 }}>
-                {isFetchingNextPage && <Loader size="sm" py="md" />}
-              </div>
-            )}
-          </>
-        )}
-      </ScrollArea>
+              {hasNextPage && (
+                <div ref={sentinelRef} style={{ height: 1 }}>
+                  {isFetchingNextPage && <Loader size="sm" py="md" />}
+                </div>
+              )}
+            </>
+          )}
+        </ScrollArea>
+      </Box>
 
       {errorMessage && items.length > 0 && (
         <Alert color="red" title="Ошибка">
           {errorMessage}
         </Alert>
       )}
-    </>
+    </Stack>
   );
 }

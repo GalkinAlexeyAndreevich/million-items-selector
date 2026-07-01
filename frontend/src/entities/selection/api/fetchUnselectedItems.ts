@@ -4,16 +4,22 @@ import { apiUrl } from '@/shared/api';
 type FetchUnselectedItemsParams = {
   offset?: number;
   limit?: number;
+  filter?: string;
 };
 
 export async function fetchUnselectedItems({
   offset = 0,
   limit = PAGE_SIZE,
+  filter = '',
 }: FetchUnselectedItemsParams = {}): Promise<ItemsResponse> {
   const params = new URLSearchParams({
     offset: String(offset),
     limit: String(limit),
   });
+
+  if (filter) {
+    params.set('filter', filter);
+  }
 
   const response = await fetch(`${apiUrl('/api/items/unselected')}?${params}`);
 

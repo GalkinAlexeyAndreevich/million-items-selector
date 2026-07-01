@@ -1,4 +1,5 @@
 import { availableItems, itemExists } from './items.js';
+import { matchesIdFilter } from './filter.js';
 import {
   AlreadySelectedError,
   ItemNotFoundError,
@@ -27,22 +28,40 @@ export function selectItem(id: number): readonly number[] {
   return selectedIds;
 }
 
-export function getSelectedPage(offset: number, limit: number): PaginatedIds {
+export function getSelectedPage(
+  offset: number,
+  limit: number,
+  filter = '',
+): PaginatedIds {
+  const filtered = filter
+    ? selectedIds.filter((id) => matchesIdFilter(id, filter))
+    : selectedIds;
+
   return {
-    items: selectedIds.slice(offset, offset + limit),
-    total: selectedIds.length,
+    items: filtered.slice(offset, offset + limit),
+    total: filtered.length,
     offset,
     limit,
   };
 }
 
-export function getUnselectedPage(offset: number, limit: number): PaginatedIds {
+export function getUnselectedPage(
+  offset: number,
+  limit: number,
+  filter = '',
+): PaginatedIds {
   let total = 0;
 
   for (const id of availableItems) {
-    if (!selectedSet.has(id)) {
-      total += 1;
+    if (selectedSet.has(id)) {
+      continue;
     }
+
+    if (!matchesIdFilter(id, filter)) {
+      continue;
+    }
+
+    total += 1;
   }
 
   const items: number[] = [];
@@ -50,6 +69,10 @@ export function getUnselectedPage(offset: number, limit: number): PaginatedIds {
 
   for (const id of availableItems) {
     if (selectedSet.has(id)) {
+      continue;
+    }
+
+    if (!matchesIdFilter(id, filter)) {
       continue;
     }
 
