@@ -1,7 +1,9 @@
 import { Router } from 'express';
 
-import { parsePagination } from '../lib/query.js';
+import { handleStorageError } from '../lib/handleStorageError.js';
+import { parseIdParam, parsePagination } from '../lib/query.js';
 import {
+  addItem,
   getItemsPage,
   getSelectedPage,
   getUnselectedPage,
@@ -22,4 +24,24 @@ itemsRouter.get('/unselected', (req, res) => {
 itemsRouter.get('/selected', (req, res) => {
   const { offset, limit } = parsePagination(req.query);
   res.json(getSelectedPage(offset, limit));
+});
+
+itemsRouter.post('/', (req, res) => {
+  const id = parseIdParam(String(req.body?.id ?? ''));
+
+  if (id === null) {
+    res.status(400).json({ error: 'Invalid item id' });
+    return;
+  }
+
+  try {
+    const createdId = addItem(id);
+    res.status(201).json({ id: createdId });
+  } catch (error) {
+    if (handleStorageError(error, res)) {
+      return;
+    }
+
+    throw error;
+  }
 });

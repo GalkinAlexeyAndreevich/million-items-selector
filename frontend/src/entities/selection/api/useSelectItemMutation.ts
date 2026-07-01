@@ -1,8 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import {
+  selectedItemsQueryKey,
+  unselectedItemsQueryKey,
+} from '@/shared/api/queryKeys';
+
 import { selectItem } from './selectItem';
-import { selectedItemsQueryKey } from './useSelectedInfiniteQuery';
-import { unselectedItemsQueryKey } from './useUnselectedInfiniteQuery';
 
 export function useSelectItemMutation() {
   const queryClient = useQueryClient();
@@ -10,8 +13,8 @@ export function useSelectItemMutation() {
   return useMutation({
     mutationFn: selectItem,
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: unselectedItemsQueryKey });
-      void queryClient.invalidateQueries({ queryKey: selectedItemsQueryKey });
+      queryClient.invalidateQueries({ queryKey: unselectedItemsQueryKey });
+      queryClient.invalidateQueries({ queryKey: selectedItemsQueryKey });
     },
   });
 }

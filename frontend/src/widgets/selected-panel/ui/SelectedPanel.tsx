@@ -23,7 +23,7 @@ export function SelectedPanel() {
           isPending={query.isPending}
           isFetchingNextPage={query.isFetchingNextPage}
           hasNextPage={query.hasNextPage ?? false}
-          fetchNextPage={() => void query.fetchNextPage()}
+          fetchNextPage={query.fetchNextPage}
           pagesCount={query.data?.pages.length ?? 0}
           error={query.error}
           emptyMessage="Ничего не выбрано"

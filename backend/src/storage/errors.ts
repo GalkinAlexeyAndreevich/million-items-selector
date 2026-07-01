@@ -11,3 +11,17 @@ export class AlreadySelectedError extends Error {
     this.name = 'AlreadySelectedError';
   }
 }
+
+export class DuplicateItemError extends Error {
+  constructor(id: number) {
+    super(`Item ${id} already exists`);
+    this.name = 'DuplicateItemError';
+  }
+}
+
+export class InvalidItemIdError extends Error {
+  constructor() {
+    super('Invalid item id');
+    this.name = 'InvalidItemIdError';
+  }
+}

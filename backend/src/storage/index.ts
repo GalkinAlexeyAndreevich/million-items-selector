@@ -1,9 +1,11 @@
 export { PAGE_SIZE, TOTAL_ITEMS } from './constants.js';
 export {
   AlreadySelectedError,
+  DuplicateItemError,
+  InvalidItemIdError,
   ItemNotFoundError,
 } from './errors.js';
-export { availableItems, getItemsPage, itemExists } from './items.js';
+export { addItem, availableItems, getItemsPage, itemExists } from './items.js';
 export {
   getSelectedPage,
   getSelection,

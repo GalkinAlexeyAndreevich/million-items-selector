@@ -4,6 +4,7 @@ import {
   useSelectItemMutation,
   useUnselectedInfiniteQuery,
 } from '@/entities/selection';
+import { AddItemForm } from '@/features/add-item';
 import { PaginatedItemsList } from '@/shared/ui/PaginatedItemsList';
 
 export function UnselectedPanel() {
@@ -14,12 +15,14 @@ export function UnselectedPanel() {
   const total = query.data?.pages[0]?.total ?? 0;
 
   return (
-    <Paper withBorder p="md" radius="md" h="100%">
+    <Paper withBorder p="md" radius="md" h="100%" w="100%">
       <Stack gap="md">
         <Title order={3}>Доступные</Title>
         <Text size="sm" c="dimmed">
           Нажмите на элемент, чтобы выбрать
         </Text>
+
+        <AddItemForm />
 
         <PaginatedItemsList
           items={items}
@@ -27,7 +30,7 @@ export function UnselectedPanel() {
           isPending={query.isPending}
           isFetchingNextPage={query.isFetchingNextPage}
           hasNextPage={query.hasNextPage ?? false}
-          fetchNextPage={() => void query.fetchNextPage()}
+          fetchNextPage={query.fetchNextPage}
           pagesCount={query.data?.pages.length ?? 0}
           error={query.error}
           emptyMessage="Все элементы выбраны"

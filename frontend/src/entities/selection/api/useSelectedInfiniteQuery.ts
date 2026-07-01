@@ -1,10 +1,9 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { PAGE_SIZE } from '@/entities/item';
+import { selectedItemsQueryKey } from '@/shared/api/queryKeys';
 
 import { fetchSelectedItems } from './fetchSelectedItems';
-
-export const selectedItemsQueryKey = ['items', 'selected'] as const;
 
 export function useSelectedInfiniteQuery() {
   return useInfiniteQuery({

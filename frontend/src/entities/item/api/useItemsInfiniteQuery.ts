@@ -1,8 +1,9 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { fetchItems, PAGE_SIZE } from '@/entities/item';
+import { fetchItems } from './fetchItems';
+import { PAGE_SIZE } from '../model/constants';
 
-export const itemsQueryKey = ['items'] as const;
+const itemsQueryKey = ['items'] as const;
 
 export function useItemsInfiniteQuery() {
   return useInfiniteQuery({
