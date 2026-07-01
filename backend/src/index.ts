@@ -1,7 +1,7 @@
 import 'dotenv/config';
 
 import app from './app.js';
-import { availableItems } from './state/index.js';
+import { availableItems } from './storage/index.js';
 
 const PORT = Number(process.env.PORT) || 3001;
 

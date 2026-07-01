@@ -13,6 +13,10 @@ function generateItems(): number[] {
 
 export const availableItems = generateItems();
 
+export function itemExists(id: number): boolean {
+  return Number.isInteger(id) && id >= 1 && id <= availableItems.length;
+}
+
 export function getItemsPage(offset: number, limit: number): PaginatedIds {
   return {
     items: availableItems.slice(offset, offset + limit),

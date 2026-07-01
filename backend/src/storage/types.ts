@@ -4,3 +4,7 @@ export type PaginatedIds = {
   offset: number;
   limit: number;
 };
+
+export type SelectionResponse = {
+  ids: number[];
+};
