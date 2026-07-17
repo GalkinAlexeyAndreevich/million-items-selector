@@ -21,7 +21,7 @@ export async function fetchSelectedItems({
     params.set('filter', filter);
   }
 
-  const response = await fetch(`${apiUrl('/api/items/selected')}?${params}`);
+  const response = await fetch(`${apiUrl('/api/selection/selected')}?${params}`);
 
   if (!response.ok) {
     throw new Error(`HTTP ${response.status}`);

@@ -1,6 +1,7 @@
-import { TOTAL_ITEMS } from './constants.js';
-import { DuplicateItemError, InvalidItemIdError } from './errors.js';
-import type { PaginatedIds } from './types.js';
+import { DuplicateItemError } from '../../shared/errors.js';
+import { paginate, type PaginatedIds } from '../../shared/pagination.js';
+
+export const TOTAL_ITEMS = 1_000_000;
 
 function generateItems(): number[] {
   const items = new Array<number>(TOTAL_ITEMS);
@@ -15,10 +16,6 @@ function generateItems(): number[] {
 export const availableItems = generateItems();
 
 export function itemExists(id: number): boolean {
-  if (!Number.isInteger(id) || id < 1) {
-    return false;
-  }
-
   if (id <= TOTAL_ITEMS) {
     return availableItems[id - 1] === id;
   }
@@ -27,10 +24,6 @@ export function itemExists(id: number): boolean {
 }
 
 export function addItem(id: number): number {
-  if (!Number.isInteger(id) || id < 1) {
-    throw new InvalidItemIdError();
-  }
-
   if (itemExists(id)) {
     throw new DuplicateItemError(id);
   }
@@ -41,10 +34,5 @@ export function addItem(id: number): number {
 }
 
 export function getItemsPage(offset: number, limit: number): PaginatedIds {
-  return {
-    items: availableItems.slice(offset, offset + limit),
-    total: availableItems.length,
-    offset,
-    limit,
-  };
+  return paginate(availableItems, offset, limit);
 }
