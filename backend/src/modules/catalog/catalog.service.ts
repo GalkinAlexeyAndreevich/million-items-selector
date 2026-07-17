@@ -1,5 +1,4 @@
 import { DuplicateItemError } from '../../shared/errors.js';
-import { paginate, type PaginatedIds } from '../../shared/pagination.js';
 
 export const TOTAL_ITEMS = 1_000_000;
 
@@ -31,8 +30,4 @@ export function addItem(id: number): number {
   availableItems.push(id);
 
   return id;
-}
-
-export function getItemsPage(offset: number, limit: number): PaginatedIds {
-  return paginate(availableItems, offset, limit);
 }

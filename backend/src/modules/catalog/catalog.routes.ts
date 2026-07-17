@@ -1,17 +1,10 @@
 import { Router } from 'express';
 
 import { handleDomainError } from '../../shared/errors.js';
-import { parseId, parsePagination } from '../../shared/query.js';
-import { addItem, getItemsPage } from './catalog.service.js';
+import { parseId } from '../../shared/query.js';
+import { addItem } from './catalog.service.js';
 
 export const catalogRouter = Router();
-
-catalogRouter.get('/', (req, res) => {
-  const { offset, limit } = parsePagination(req.query);
-  const page = getItemsPage(offset, limit);
-
-  res.json(page);
-});
 
 catalogRouter.post('/', (req, res) => {
   const { id: rawId } = req.body ?? {};
