@@ -3,7 +3,7 @@ import { useDebouncedValue } from '@mantine/hooks';
 import { useState } from 'react';
 
 import {
-  useSelectItemMutation,
+  useSelectItemQueue,
   useUnselectedInfiniteQuery,
 } from '@/entities/selection';
 import { AddItemForm } from '@/features/add-item';
@@ -15,7 +15,7 @@ export function UnselectedPanel() {
   const [debouncedFilter] = useDebouncedValue(filter, 300);
 
   const query = useUnselectedInfiniteQuery(debouncedFilter);
-  const selectMutation = useSelectItemMutation();
+  const selectQueue = useSelectItemQueue();
 
   const items = query.data?.pages.flatMap((page) => page.items) ?? [];
   const total = query.data?.pages[0]?.total ?? 0;
@@ -48,12 +48,12 @@ export function UnselectedPanel() {
           pagesCount={query.data?.pages.length ?? 0}
           error={query.error}
           emptyMessage={debouncedFilter ? 'Ничего не найдено' : 'Все элементы выбраны'}
-          onItemClick={(id) => selectMutation.mutate(id)}
+          onItemClick={(id) => selectQueue.select(id)}
         />
 
-        {selectMutation.error && (
+        {selectQueue.error && (
           <Alert color="red" title="Ошибка">
-            {selectMutation.error.message}
+            {selectQueue.error.message}
           </Alert>
         )}
       </Stack>

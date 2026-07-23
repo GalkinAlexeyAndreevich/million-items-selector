@@ -1,7 +1,7 @@
 import { Alert, Button, Group, NumberInput, Stack } from '@mantine/core';
 import { type SubmitEventHandler, useId, useState } from 'react';
 
-import { useAddItemMutation } from '@/entities/item';
+import { useAddItemQueue } from '@/entities/item';
 
 function parseItemId(value: string | number): number | null {
   if (value === '') {
@@ -21,15 +21,15 @@ export function AddItemForm() {
   const inputId = useId();
   const [value, setValue] = useState<string | number>('');
   const [fieldError, setFieldError] = useState<string | null>(null);
-  const addMutation = useAddItemMutation();
+  const addQueue = useAddItemQueue();
 
   const parsedId = parseItemId(value);
-  const canSubmit = parsedId !== null && !addMutation.isPending;
+  const canSubmit = parsedId !== null && !addQueue.isPending;
 
   const handleChange = (nextValue: string | number) => {
     setValue(nextValue);
     setFieldError(null);
-    addMutation.reset();
+    addQueue.reset();
   };
 
   const handleSubmit: SubmitEventHandler<HTMLFormElement> = (event) => {
@@ -40,7 +40,7 @@ export function AddItemForm() {
       return;
     }
 
-    addMutation.mutate(parsedId, {
+    addQueue.add(parsedId, {
       onSuccess: () => {
         setValue('');
         setFieldError(null);
@@ -68,15 +68,15 @@ export function AddItemForm() {
             flex={1}
             required
           />
-          <Button type="submit" loading={addMutation.isPending} disabled={!canSubmit}>
+          <Button type="submit" loading={addQueue.isPending} disabled={!canSubmit}>
             Добавить
           </Button>
         </Group>
       </form>
 
-      {addMutation.isError && (
+      {addQueue.error && (
         <Alert color="red" title="Ошибка">
-          {addMutation.error.message}
+          {addQueue.error.message}
         </Alert>
       )}
     </Stack>
